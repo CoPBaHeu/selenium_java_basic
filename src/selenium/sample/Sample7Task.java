@@ -10,6 +10,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -95,11 +97,11 @@ public class Sample7Task {
         Select list = new Select(driver.findElement(By.id("vfb-12")));
         list.selectByIndex(3);
 //        check that selected option is "Option 3"
-        assertEquals("Option 3",list.getFirstSelectedOption().getText());
+        assertEquals("Option 3", list.getFirstSelectedOption().getText());
 //        select "Option 2" in Select
         list.selectByIndex(2);
 //        check that selected option is "Option 2"
-        assertEquals("Option 2",list.getFirstSelectedOption().getText());
+        assertEquals("Option 2", list.getFirstSelectedOption().getText());
 //        click result
         driver.findElement(By.id("result_button_select")).click();
 //        check that 'You selected option: Option 2' text is being displayed
@@ -112,6 +114,20 @@ public class Sample7Task {
 //         TODO:
 //        enter date '4 of July 2007' using calendar widget
 //        check that correct date is added
+
+        WebElement dateBox = driver.findElement(By.id("vfb-8"));
+        assertEquals("", dateBox.getAttribute("value"));
+
+        dateBox.click();
+        WebElement dateWidget = driver.findElement(By.id("ui-datepicker-div"));
+
+        for (int i = 0; i < 177; i++) {
+            dateWidget.findElement(By.className("ui-datepicker-prev")).click();
+        }
+        dateWidget.findElement(By.xpath("//a[text()='4']")).click();
+
+        assertEquals("07/04/2007", dateBox.getAttribute("value"));
+        dateBox.clear();
     }
 
     @Test
@@ -119,5 +135,13 @@ public class Sample7Task {
 //         TODO:
 //        enter date '2 of May 1959' using text
 //        check that correct date is added
+        WebElement dateBox = driver.findElement(By.id("vfb-8"));
+        assertEquals("", dateBox.getAttribute("value"));
+
+        dateBox.click();
+        dateBox.clear();
+        dateBox.sendKeys("05/02/1959");
+        driver.findElement(By.tagName("body")).click();
+        driver.findElement(By.id("result_button_date")).click();
     }
 }
